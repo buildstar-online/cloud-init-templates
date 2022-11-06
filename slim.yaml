@@ -5,7 +5,7 @@ disable_root: false
 network:
   config: disabled
 users:
-  - name: ${USER}
+  - name: ${USERNAME}
     groups: users, admin, docker, sudo
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
