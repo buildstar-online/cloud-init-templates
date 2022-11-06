@@ -121,6 +121,8 @@ packages:
   - ${DESKTOP_PACKAGE}
   - xvfb
   - ubuntu-drivers-common
+  # workaround for https://askubuntu.com/questions/1436601/ubuntu-drivers-unboundlocalerror-local-variable-version-referenced-before-as
+  # gcc make xterm xfce4 xfce4-goodies x11vnc xvfb libgbm1 zenity pkg-config libglvnd-dev
 bootcmd:
   - echo "---Updating network config for use with static ip addressing---" && sleep 1
   - netplan --degug generate
