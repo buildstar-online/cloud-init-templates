@@ -7,12 +7,10 @@ These templates are simply Cloud-Init `user-data` files that have been parametiz
 
 ## Templates
 
-1. [**ansible-boilerplate**](ansible-boilerplate.yaml): *A base-system capable of running ansible profiles from the similarly-named [ansible-boilerplate](https://github.com/cloudymax/ansible-boilerplate) repo.*
-
-2. [**game-ci-vdi**](game-ci-vdi.yaml): *A virtual desktop environment for Unity3d with Editor and Hub.*
-
-3. [**gitlab-runner**](gitlab-runner.yaml): *create a self-hosted gitlab runner.*
-
-4. [**scrap-metal-auto-install**](scrap-metal-auto-install.yaml): *replicates the bare-metal system image for Scrap-Metal as a VM.*
-
-5. [**slim**](slim.yaml): *creates a minimal system image with users, ssh-keys and updated package-cache only.*
+|Name| Description|
+| --- | --- |
+|[**ansible-boilerplate**](ansible-boilerplate.yaml)| *A base-system capable of running ansible profiles from the similarly-named [ansible-boilerplate](https://github.com/cloudymax/ansible-boilerplate) repo.*|
+|[**game-ci-vdi**](game-ci-vdi.yaml)| *A virtual desktop environment for Unity3d with Editor and Hub.*|
+|[**gitlab-runner**](gitlab-runner.yaml)| *create a self-hosted gitlab runner.*
+|[**scrap-metal-auto-install**](scrap-metal-auto-install.yaml)| *replicates the bare-metal system image for Scrap-Metal as a VM.*|
+|[**slim**](slim.yaml)| *creates a minimal system image with users, ssh-keys and updated package-cache only.*|
