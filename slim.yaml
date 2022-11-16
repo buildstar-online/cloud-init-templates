@@ -10,7 +10,7 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: false
-    passwd: ${PASSWD}
+    passwd: ${PASSWORD}
     ssh_import_id:
       - gh:${GITHUB_USER}
   - name: ${VM_ADMIN}
@@ -19,7 +19,7 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: false
-    passwd: ${PASSWD}
+    passwd: ${PASSWORD}
     ssh_authorized_keys:
       - ${VM_KEY}
 package_update: ${UPDATE}
