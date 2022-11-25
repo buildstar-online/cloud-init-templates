@@ -79,6 +79,13 @@ write_files:
     # More verbose logs
     # Additionally lets the X server dump core if it crashes
     #Enable=true
+- path: /etc/systemd/sleep.conf.d/nosuspend.conf
+  content: |
+    [Sleep]
+    AllowSuspend=no
+    AllowHibernation=no
+    AllowSuspendThenHibernate=no
+    AllowHybridSleep=no
 - path: /etc/apt/sources.list
   content: |
     deb-src http://deb.debian.org/debian/ bookworm main contrib non-free
