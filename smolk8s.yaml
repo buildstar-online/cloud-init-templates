@@ -57,5 +57,8 @@ runcmd:
   - chmod 777 /install.sh
   - sudo -u ${USERNAME} NONINTERACTIVE=1 /bin/bash /install.sh
   - sudo -u ${USERNAME} /home/linuxbrew/.linuxbrew/bin/brew shellenv >> /home/${USERNAME}/.profile
+  - sudo -u ${USERNAME} /home/linuxbrew/.linuxbrew/opt/python@3.11/libexec/bin >> /home/${USERNAME}/.profile
   - sudo -u ${USERNAME} /home/linuxbrew/.linuxbrew/bin/brew install python@3.11
+  - sudo -u ${USERNAME} /home/linuxbrew/.linuxbrew/opt/python@3.11/libexec/bin/pip3.11 install smol-k8s-lab
+  - sudo mkdir -p /home/${USERNAME}/.config/smol-ka8s-lab
   - wget -O /home/${USERNAME}/.config/smol-ka8s-lab/config.yaml https://raw.githubusercontent.com/jessebot/smol-k8s-lab/main/smol_k8s_lab/config/config.yaml
