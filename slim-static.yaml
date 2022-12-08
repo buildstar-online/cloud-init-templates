@@ -22,6 +22,9 @@ users:
     passwd: ${PASSWORD}
     ssh_authorized_keys:
       - ${VM_KEY}
+bootcmd:
+  - sudo netplan --debug generate
+  - sudo netplan --debug apply
 write_files:
 - path: /etc/netplan/99-my-new-config.yaml
   permissions: '0644'
@@ -31,7 +34,7 @@ write_files:
         ${INTERFACE}:
           dhcp4: no
           dhcp6: no
-          addresses: [${IP_ADDRESS}/24]
+          addresses: [${STATIC_IP_ADDRESS}/24]
           routes:
             - to: default
               via: ${GATEWAY_IP}
@@ -43,8 +46,6 @@ write_files:
 package_update: ${UPDATE}
 package_upgrade: ${UPGRADE}
 runcmd:
-  - /etc/netplan --debug generate
-  - /etc/netplan --debug apply
   - sed -i -e '/^Port/s/^.*$/Port 22/' /etc/ssh/sshd_config
   - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin yes/' /etc/ssh/sshd_config
   - sed -i -e '/^PasswordAuthentication/s/^.*$/PasswordAuthentication yes/' /etc/ssh/sshd_config
