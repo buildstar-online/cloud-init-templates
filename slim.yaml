@@ -22,5 +22,10 @@ users:
     passwd: ${PASSWORD}
     ssh_authorized_keys:
       - ${VM_KEY}
+bootcmd:
+  - apt-get update
+  - apt-get install -y ssh-import-id
+ssh_import_id:
+  - gh:${GITHUB_USER}
 package_update: ${UPDATE}
 package_upgrade: ${UPGRADE}
