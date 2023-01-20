@@ -24,7 +24,3 @@ users:
       - ${VM_KEY}
 package_update: ${UPDATE}
 package_upgrade: ${UPGRADE}
-runcmd:
-  - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin yes/' /etc/ssh/sshd_config
-  - sed -i -e '/^PasswordAuthentication/s/^.*$/PasswordAuthentication yes/' /etc/ssh/sshd_config
-  - systemctl restart sshd
