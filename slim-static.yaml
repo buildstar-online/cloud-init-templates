@@ -23,6 +23,8 @@ users:
     ssh_authorized_keys:
       - ${VM_KEY}
 bootcmd:
+  - apt-get update
+  - apt-get install -y netplan.io
   - /usr/sbin/netplan --debug generate
   - /usr/sbin/netplan --debug apply
 write_files:
@@ -45,10 +47,3 @@ write_files:
       version: 2
 package_update: ${UPDATE}
 package_upgrade: ${UPGRADE}
-runcmd:
-  - /usr/sbin/netplan --debug generate
-  - /usr/sbin/netplan --debug apply
-  - sed -i -e '/^Port/s/^.*$/Port 22/' /etc/ssh/sshd_config
-  - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin yes/' /etc/ssh/sshd_config
-  - sed -i -e '/^PasswordAuthentication/s/^.*$/PasswordAuthentication yes/' /etc/ssh/sshd_config
-  - systemctl restart sshd
