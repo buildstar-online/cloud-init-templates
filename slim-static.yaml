@@ -25,8 +25,6 @@ users:
 bootcmd:
   - apt-get update
   - apt-get install -y netplan.io
-  - /usr/sbin/netplan --debug generate
-  - /usr/sbin/netplan --debug apply
 write_files:
 - path: /etc/netplan/99-my-new-config.yaml
   permissions: '0644'
@@ -47,3 +45,7 @@ write_files:
       version: 2
 package_update: ${UPDATE}
 package_upgrade: ${UPGRADE}
+run_cmd:
+  - rm /etc/netplan/50*
+  - /usr/sbin/netplan --debug generate
+  - /usr/sbin/netplan --debug apply
