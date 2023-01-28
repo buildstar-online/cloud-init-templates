@@ -46,6 +46,6 @@ write_files:
 package_update: ${UPDATE}
 package_upgrade: ${UPGRADE}
 run_cmd:
-  - rm /etc/netplan/50*
   - /usr/sbin/netplan --debug generate
   - /usr/sbin/netplan --debug apply
+  - rm /etc/netplan/50*
