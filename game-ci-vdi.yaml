@@ -1,37 +1,18 @@
 #cloud-config
 # - Required Extra Vars
 # $INTERFACE
-# $IP_ADDRESS
+# $STATIC_IP_ADDRESS
 # $GATEWAY_IP
 # $DNS_SERVER_IP
 # $DESKTOP_PACKAGE
 # $EDITOR_VERSION
-cloud_config_modules:
- - apk_configure
- - apt_configure
- - apt_pipelining
- - bootcmd
- - seed_random
- - set_passwords
- - snap
- - [package_update_upgrade_install, always]
-cloud_final_modules:
- - runcmd
- - rightscale_userdata
- - scripts-per-once
- - [scripts-per-boot, always]
- - scripts-per-instance
- - scripts-user
- - keys-to-console
- - phone-home
- - final-message
 hostname: ${VM_NAME}
 fqdn: ${VM_NAME}
 disable_root: false
 network:
   config: disabled
 users:
-  - name: ${USER}
+  - name: ${USERNAME}
     groups: users, admin, docker, sudo
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
@@ -57,7 +38,7 @@ write_files:
         ${INTERFACE}:
           dhcp4: no
           dhcp6: no
-          addresses: [${IP_ADDRESS}/24]
+          addresses: [${STATIC_IP_ADDRESS}/24]
           routes:
             - to: default
               via: ${GATEWAY_IP}
