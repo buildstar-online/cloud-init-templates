@@ -4,7 +4,6 @@
 # $STATIC_IP_ADDRESS
 # $GATEWAY_IP
 # $DNS_SERVER_IP
-# $DESKTOP_PACKAGE
 # $EDITOR_VERSION
 hostname: ${VM_NAME}
 fqdn: ${VM_NAME}
@@ -99,11 +98,11 @@ packages:
   - libgbm1
   - gnupg
   - x11vnc
-  - ${DESKTOP_PACKAGE}
+  - ubuntu-desktop
   - xvfb
-  - ubuntu-drivers-common
+  - xterm
+  - net-tools
   # workaround for https://askubuntu.com/questions/1436601/ubuntu-drivers-unboundlocalerror-local-variable-version-referenced-before-as
-  # gcc make xterm xfce4 xfce4-goodies x11vnc xvfb libgbm1 zenity pkg-config libglvnd-dev
 bootcmd:
   - echo "---Updating network config for use with static ip addressing---" && sleep 1
   - netplan --degug generate
@@ -111,10 +110,8 @@ bootcmd:
   - mkdir -p "/opt/unityhub/chrome-sandbox"
   - mkdir -p "/opt/unity/editors"
 runcmd:
-  - echo "---Installing Nvidia Drivers---" && sleep 1
-  - ubuntu-drivers autoinstall
   - echo "---Downloading xorg.conf---" && sleep 1
-  - curl https://raw.githubusercontent.com/cloudymax/Scrap-Metal/main/virtual-machines/qemu/configs/xorg.conf > /tmp/xorg.conf
+  - curl https://raw.githubusercontent.com/cloudymax/Scrap-Metal/main/virtual-machines/qemu/configs/xorg.conf.headless > /tmp/xorg.conf
   - cp /tmp/xorg.conf /etc/X11/xorg.conf 
   - echo "---installing older version of SSL as workaround for Unity Hub failing to launch---" && sleep 1
   - wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
