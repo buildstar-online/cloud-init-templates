@@ -24,7 +24,7 @@ users:
       - ${VM_KEY}
 bootcmd:
   - apt-get update
-  - apt-get install -y netplan.io
+  - apt-get install -y netplan.io ssh-import-id
 write_files:
 - path: /etc/netplan/99-my-new-config.yaml
   permissions: '0644'
@@ -49,3 +49,4 @@ run_cmd:
   - /usr/sbin/netplan --debug generate
   - /usr/sbin/netplan --debug apply
   - rm /etc/netplan/50*
+  - sudo -u ${USERNAME} ssh-import-id-gh ${GITHUB_USER}
