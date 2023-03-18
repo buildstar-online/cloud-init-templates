@@ -11,8 +11,8 @@ users:
     shell: /bin/bash
     lock_passwd: false
     passwd: ${PASSWORD}
-    ssh_import_id:
-      - gh:${GITHUB_USER}
+    #ssh_import_id:
+    #  - gh:${GITHUB_USER}
   - name: ${VM_ADMIN}
     gecos: system acct
     groups: users, admin, docker, sudo
@@ -49,4 +49,4 @@ runcmd:
   - /usr/sbin/netplan --debug generate
   - /usr/sbin/netplan --debug apply
   - rm /etc/netplan/50*
-  - sudo -u ${USERNAME} ssh-import-id-gh ${GITHUB_USER}
+  #- sudo -u ${USERNAME} ssh-import-id-gh ${GITHUB_USER}
