@@ -125,9 +125,9 @@ runcmd:
   - apt-get update -y
   - apt-get install -y unityhub
   - mv /etc/unity-hub /usr/bin/unity-hub
-  - echo "--- Doanload and install Unity Editor version ${EDITOR_VERSION}---" && sleep 1
+  - echo "--- Doanload and install Unity Editor version 2022.1.23f1---" && sleep 1
   - sudo xvfb-run -ae /dev/stdout /opt/unityhub/unityhub-bin --no-sandbox --headless install-path --set "/opt/unity/editors"
-  - sudo xvfb-run -ae /dev/stdout /opt/unityhub/unityhub-bin --no-sandbox --headless install -v ${EDITOR_VERSION}
+  - sudo xvfb-run -ae /dev/stdout /opt/unityhub/unityhub-bin --no-sandbox --headless install -v 2022.1.23f1
   - echo "---installing git lfs---" && Sleep 1
   - git lfs install --system --skip-repo
   - echo "---Setting SSH port and options---" && sleep 1
