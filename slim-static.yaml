@@ -43,10 +43,10 @@ write_files:
             addresses: [${DNS_SERVER_IP}]
       renderer: networkd
       version: 2
-package_update: ${UPDATE}
-package_upgrade: ${UPGRADE}
+package_update: true
+package_upgrade: false
 runcmd:
   - /usr/sbin/netplan --debug generate
   - /usr/sbin/netplan --debug apply
   - rm /etc/netplan/50*
-  #- sudo -u ${USERNAME} ssh-import-id-gh ${GITHUB_USER}
+  - sudo -u ${USERNAME} ssh-import-id-gh ${GITHUB_USER}
