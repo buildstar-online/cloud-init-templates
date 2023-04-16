@@ -11,8 +11,8 @@ users:
     shell: /bin/bash
     lock_passwd: false
     passwd: ${PASSWORD}
-    #ssh_import_id:
-    #  - gh:${GITHUB_USER}
+    ssh_import_id:
+      - gh:${GITHUB_USER}
   - name: ${VM_ADMIN}
     gecos: system acct
     groups: users, admin, docker, sudo
@@ -22,9 +22,6 @@ users:
     passwd: ${PASSWORD}
     ssh_authorized_keys:
       - ${VM_KEY}
-bootcmd:
-  - apt-get update
-  - apt-get install -y netplan.io ssh-import-id
 write_files:
 - path: /etc/netplan/99-my-new-config.yaml
   permissions: '0644'
@@ -43,7 +40,7 @@ write_files:
             addresses: [${DNS_SERVER_IP}]
       renderer: networkd
       version: 2
-package_update: true
+package_update: false
 package_upgrade: false
 runcmd:
   - /usr/sbin/netplan --debug generate
