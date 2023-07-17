@@ -79,13 +79,13 @@ runcmd:
   - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   # Debian
   # - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  - apt-get update 
-  - apt-get install docker-ce
+  - sudo apt-get update 
+  - sudo apt-get install -y docker-ce
   ########################
   # Install Docker Compose
-  - mkdir -p /home/${USERNAME}/.docker/cli-plugins/
-  - curl -SL https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
-  - chmod +x /home/${USERNAME}/.docker/cli-plugins/docker-compose
+  - sudo -u ${USERNAME} -i mkdir -p /home/${USERNAME}/.docker/cli-plugins/
+  - sudo -u ${USERNAME} -i curl -SL https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-x86_64 -o  /home/${USERNAME}/.docker/cli-plugins/docker-compose
+  - sudo chmod +x /home/${USERNAME}/.docker/cli-plugins/docker-compose
 
 
 
