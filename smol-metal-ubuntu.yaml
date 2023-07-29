@@ -1,0 +1,93 @@
+#cloud-config
+disable_root: false
+network:
+  config: disabled
+users:
+  - name: ${USERNAME}
+    groups: users, admin, docker, sudo, kvm
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: false
+    passwd: ${PASSWORD}
+    ssh_import_id:
+      - gh:${GITHUB_USER}
+  - name: ${VM_ADMIN}
+    gecos: system acct
+    groups: users, admin, docker, sudo
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: false
+    passwd: ${PASSWORD}
+    ssh_authorized_keys:
+      - ${VM_KEY}
+write_files:
+- path: /etc/netplan/99-my-new-config.yaml
+  permissions: '0644'
+  content: |
+    network:
+      ethernets:
+        ${INTERFACE}:
+          dhcp4: no
+          dhcp6: no
+          addresses: [${STATIC_IP_ADDRESS}/24]
+          routes:
+            - to: default
+              via: ${GATEWAY_IP}
+          mtu: 1500
+          nameservers:
+            addresses: [${DNS_SERVER_IP}]
+      renderer: networkd
+      version: 2
+package_update: false
+package_upgrade: false
+packages: 
+  - openresolv
+  - ssh-import-id
+  - sudo
+  - curl
+  - tmux
+  - netplan.io
+  - apt-transport-https
+  - ca-certificates
+  - software-properties-common
+  - netplan.io
+  - git-extras
+  - rsyslog
+  - fail2ban
+  - neovim
+  - gpg
+  - open-iscsi
+  - nfs-common
+runcmd:
+  - /usr/sbin/netplan --debug generate
+  - /usr/sbin/netplan --debug apply
+  - sleep5
+  - rm /etc/netplan/50*
+  #####################
+  # Import SSH keys
+  - sudo -u ${USERNAME} ssh-import-id-gh ${GITHUB_USER}
+  ######################
+  # Install YQ
+  - wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+  - chmod +x /usr/bin/yq
+  ######################
+  # Install Docker
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  # Ubuntu
+   - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  # Debian
+  # - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  - sudo apt-get update 
+  - sudo apt-get install -y docker-ce
+  ########################
+  # Install Docker Compose
+  - sudo -u ${USERNAME} -i mkdir -p /home/${USERNAME}/.docker/cli-plugins/
+  - sudo -u ${USERNAME} -i curl -SL https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-x86_64 -o  /home/${USERNAME}/.docker/cli-plugins/docker-compose
+  - sudo chmod +x /home/${USERNAME}/.docker/cli-plugins/docker-compose
+  ########################
+  # Start fail2ban
+  - sudo systemctl enable fail2ban
+  - sudo systemctl start fail2ban
+
+
+  
