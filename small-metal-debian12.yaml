@@ -61,7 +61,7 @@ packages:
 runcmd:
   - /usr/sbin/netplan --debug generate
   - /usr/sbin/netplan --debug apply
-  - sleep5
+  - sleep 5
   - rm /etc/netplan/50*
   #####################
   # Import SSH keys
