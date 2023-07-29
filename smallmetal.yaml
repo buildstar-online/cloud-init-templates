@@ -1,6 +1,4 @@
 #cloud-config
-hostname: ${VM_NAME}
-fqdn: ${VM_NAME}
 disable_root: false
 network:
   config: disabled
