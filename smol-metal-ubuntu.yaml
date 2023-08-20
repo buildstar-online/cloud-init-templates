@@ -1,5 +1,5 @@
 #cloud-config
-hostname: controlplane
+hostname: smol-metal
 disable_root: false
 network:
   config: disabled
