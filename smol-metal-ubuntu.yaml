@@ -9,6 +9,29 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: true
+boot_cmd:
+  - mkdir -p /home/friend/.config/smol-k8s-lab
+  - chmown -R /home/friend
+write_files:
+- path: /home/friend/.config/smol-k8s-lab/config.yaml
+  permissions: '0644'
+  content: |
+    domain:
+      base: "buildstar.online"
+      argo_cd: "argocd"
+      minio: "minio"
+      minio_console: "console.minio"
+    metallb_address_pool:
+      - 10.0.2.16/32
+      - 10.0.2.17/32
+      - 10.0.2.18/32
+      - 10.0.2.19/32
+      - 10.0.2.20/32
+    email: "admin@cloudydev.net"
+    external_secrets:
+      enabled: false
+    log:
+      level: "info"
 package_update: true
 package_upgrade: true
 packages: 
@@ -31,6 +54,7 @@ packages:
   - open-iscsi
   - nfs-common
   - ncdu
+  - nvtop
 runcmd:
   #####################
   # Import SSH keys
