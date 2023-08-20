@@ -8,7 +8,8 @@ users:
     groups: users, admin, docker, sudo, kvm
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
-    lock_passwd: true
+    lock_passwd: false
+    passwd: ${PASSWORD}
     ssh_import_id:
       - gh:cloudymax
 boot_cmd:
