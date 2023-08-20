@@ -11,7 +11,6 @@ users:
     lock_passwd: true
 boot_cmd:
   - mkdir -p /home/friend/.config/smol-k8s-lab
-  - chmown -R /home/friend
 write_files:
 - path: /home/friend/.config/smol-k8s-lab/config.yaml
   permissions: '0644'
