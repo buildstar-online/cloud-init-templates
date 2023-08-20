@@ -9,6 +9,8 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: true
+    ssh_import_id:
+      - gh:cloudymax
 boot_cmd:
   - mkdir -p /home/friend/.config/smol-k8s-lab
 write_files:
@@ -55,10 +57,6 @@ packages:
   - ncdu
   - nvtop
 runcmd:
-  #####################
-  # Import SSH keys
-  - sudo -u friend -i ssh-import-id-gh cloudymax  
-  - sudo -u friend -i ssh-import-id-gh jessebot
   ######################
   # Install YQ
   - wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
