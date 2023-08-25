@@ -57,6 +57,12 @@ packages:
   - nfs-common
   - ncdu
   - nvtop
+  - linux-headers-generic
+  - gcc
+  - kmod
+  - make
+  - pkg-config
+  - libvulkan1
 runcmd:
   ######################
   # Install YQ
