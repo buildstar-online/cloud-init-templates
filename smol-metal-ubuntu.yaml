@@ -1,17 +1,20 @@
 #cloud-config
-hostname: smol-metal
+hostname: ${VM_NAME}
+fqdn: ${VM_NAME}
 disable_root: false
 network:
   config: disabled
 users:
-  - name: friend
+  - name: ${USERNAME}
     groups: users, admin, docker, sudo, kvm
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: false
     passwd: ${PASSWORD}
     ssh_import_id:
-      - gh:cloudymax
+      - gh:${GITHUB_USER}
+    ssh_authorized_keys:
+      - ${VM_KEY}
 boot_cmd:
   - mkdir -p /home/friend/.config/smol-k8s-lab
 write_files:
