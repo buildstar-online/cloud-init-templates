@@ -91,7 +91,7 @@ runcmd:
   - sudo -u friend NONINTERACTIVE=1 /bin/bash /install.sh
   - sudo -u friend /home/linuxbrew/.linuxbrew/bin/brew shellenv >> /home/friend/.profile
   - sudo -u friend /home/linuxbrew/.linuxbrew/opt/python@3.11/libexec/bin >> /home/friend/.profile
-  - sudo -u friend /home/linuxbrew/.linuxbrew/bin/brew install python@3.11 k9s neovim
+  - sudo -u friend /home/linuxbrew/.linuxbrew/bin/brew install python@3.11 k9s neovim helm
   - sudo -u friend /home/linuxbrew/.linuxbrew/bin/pip3.11 install smol-k8s-lab onboardme
   - sudo mkdir -p /home/friend/.config/smol-ka8s-lab
   - sudo chown -R friend:friend /home/linuxbrew
