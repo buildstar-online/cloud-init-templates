@@ -82,6 +82,19 @@ runcmd:
   - sudo -u ${USERNAME} -i curl -SL https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-x86_64 -o  /home/${USERNAME}/.docker/cli-plugins/docker-compose
   - sudo chmod +x /home/${USERNAME}/.docker/cli-plugins/docker-compose
   ########################
+  # Brew and Python3
+  - wget https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+  - chmod +x /install.sh
+  - chmod 777 /install.sh
+  - sudo -u friend NONINTERACTIVE=1 /bin/bash /install.sh
+  - sudo -u friend /home/linuxbrew/.linuxbrew/bin/brew shellenv >> /home/${USERNAME}/.profile
+  - sudo -u friend /home/linuxbrew/.linuxbrew/opt/python@3.11/libexec/bin >> /home/${USERNAME}/.profile
+  - sudo -u friend /home/linuxbrew/.linuxbrew/bin/brew install python@3.11 k9s neovim
+  - sudo -u friend /home/linuxbrew/.linuxbrew/bin/pip3.11 install smol-k8s-lab onboardme
+  - sudo mkdir -p /home/friend/.config/smol-ka8s-lab
+  - sudo chown -R ${USERNAME}:${USERNAME} /home/linuxbrew
+  - sudo chown -R ${USERNAME}:${USERNAME} /home/friend
+  ########################
   # Start fail2ban
   - sudo systemctl enable fail2ban
   - sudo systemctl start fail2ban
