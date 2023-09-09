@@ -38,13 +38,11 @@ write_files:
             addresses: [${DNS_SERVER_IP}]
       renderer: networkd
       version: 2
-boot_cmd:
-  - apt-get update
-  - apt-get install -y ssh-import-id 
-package_update: false
+package_update: true
 package_upgrade: false
 runcmd:
   - /usr/sbin/netplan --debug generate
   - /usr/sbin/netplan --debug apply
   - rm /etc/netplan/50*
+  - apt-get install -y ssh-import-id 
   - sudo -u ${USERNAME} ssh-import-id-gh ${GITHUB_USER}
