@@ -40,6 +40,9 @@ write_files:
             addresses: [${DNS_SERVER_IP}]
       renderer: networkd
       version: 2
+boot_cmd:
+  - apt-get update
+  - apt-get install -y ssh-import-id 
 package_update: false
 package_upgrade: false
 runcmd:
