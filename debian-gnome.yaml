@@ -39,7 +39,7 @@ write_files:
         enp0s3:
           dhcp4: no
           dhcp6: no
-          addresses: [${IP_ADDRESS}/24]
+          addresses: [${STATIC_IP_ADDRESS}/24]
           routes:
             - to: default
               via: ${GATEWAY_IP}
