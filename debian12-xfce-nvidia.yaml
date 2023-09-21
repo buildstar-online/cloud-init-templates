@@ -41,11 +41,6 @@ write_files:
 - path: /etc/modprobe.d/nouveau.conf
   content: |
     blacklist nouveau
-- path: /etc/apt/preferences.d/mozilla-firefox
-  content: |
-    Package: *
-    Pin: release o=LP-PPA-mozillateam
-    Pin-Priority: 1001
 - path: /var/lib/cloud/scripts/per-boot/nvidia-installer.sh
   permissions: "0755"
   content: |
