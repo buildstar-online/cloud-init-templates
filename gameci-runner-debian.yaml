@@ -9,39 +9,23 @@ users:
     shell: /bin/bash
     lock_passwd: false
     passwd: ${PASSWORD}
-    ssh_import_id:
-      - gh:${GITHUB_USER}
-  - name: ${VM_ADMIN}
-    gecos: system acct
-    groups: users, admin, docker, sudo
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    shell: /bin/bash
-    lock_passwd: false
-    passwd: ${PASSWORD}
     ssh_authorized_keys:
       - ${VM_KEY}
 write_files:
-- path: /etc/netplan/99-my-new-config.yaml
-  permissions: '0644'
+- path: /etc/apt/sources.list
   content: |
-    network:
-      ethernets:
-        ${INTERFACE}:
-          dhcp4: no
-          dhcp6: no
-          addresses: [${STATIC_IP_ADDRESS}/24]
-          routes:
-            - to: default
-              via: ${GATEWAY_IP}
-          mtu: 1500
-          nameservers:
-            addresses: [${DNS_SERVER_IP}]
-      renderer: networkd
-      version: 2
-package_update: false
-package_upgrade: false
-packages: 
-  - openresolv
+    deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
+    deb-src http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
+
+    deb http://deb.debian.org/debian-security/ bookworm-security main contrib non-free
+    deb-src http://deb.debian.org/debian-security/ bookworm-security main contrib non-free
+
+    deb http://deb.debian.org/debian bookworm-updates main contrib non-free
+    deb-src http://deb.debian.org/debian bookworm-updates main contrib non-free
+package_update: true
+package_upgrade: true
+packages:
+  - wireguard
   - ssh-import-id
   - sudo
   - curl
@@ -50,19 +34,25 @@ packages:
   - apt-transport-https
   - ca-certificates
   - software-properties-common
-  - netplan.io
+  - htop
   - git-extras
   - rsyslog
   - fail2ban
-  - neovim
+  - vim
   - gpg
   - open-iscsi
   - nfs-common
+  - ncdu
+  - zip
+  - unzip
+  - iotop
+  - gcc
+  - firmware-misc-nonfree
 runcmd:
-  - /usr/sbin/netplan --debug generate
-  - /usr/sbin/netplan --debug apply
-  - sleep 5
-  - rm /etc/netplan/50*
+  #####################
+  # Install linux headers
+  - linux-headers-amd64
+  - linux-headers-`uname -r`
   #####################
   # Import SSH keys
   - sudo -u ${USERNAME} ssh-import-id-gh ${GITHUB_USER}
@@ -74,7 +64,7 @@ runcmd:
   # Install Docker
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
   - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  - sudo apt-get update 
+  - sudo apt-get update
   - sudo apt-get install -y docker-ce
   ########################
   # Install Docker Compose
@@ -86,18 +76,13 @@ runcmd:
   - wget https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
   - chmod +x /install.sh
   - chmod 777 /install.sh
-  - sudo -u friend NONINTERACTIVE=1 /bin/bash /install.sh
-  - sudo -u friend /home/linuxbrew/.linuxbrew/bin/brew shellenv >> /home/${USERNAME}/.profile
-  - sudo -u friend /home/linuxbrew/.linuxbrew/opt/python@3.11/libexec/bin >> /home/${USERNAME}/.profile
-  - sudo -u friend /home/linuxbrew/.linuxbrew/bin/brew install python@3.11 k9s neovim helm
-  - sudo -u friend /home/linuxbrew/.linuxbrew/bin/pip3.11 install smol-k8s-lab onboardme
-  - sudo mkdir -p /home/friend/.config/smol-ka8s-lab
+  - sudo -u ${USERNAME} NONINTERACTIVE=1 /bin/bash /install.sh
+  - sudo -u ${USERNAME} /home/linuxbrew/.linuxbrew/bin/brew shellenv >> /home/${USERNAME}/.profile
+  - sudo -u ${USERNAME} /home/linuxbrew/.linuxbrew/opt/python@3.11/libexec/bin >> /home/${USERNAME}/.profile
+  - sudo -u ${USERNAME} /home/linuxbrew/.linuxbrew/bin/brew install python@3.11
   - sudo chown -R ${USERNAME}:${USERNAME} /home/linuxbrew
-  - sudo chown -R ${USERNAME}:${USERNAME} /home/friend
+  - sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
   ########################
   # Start fail2ban
   - sudo systemctl enable fail2ban
   - sudo systemctl start fail2ban
-
-
-  
