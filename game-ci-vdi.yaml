@@ -66,6 +66,9 @@ write_files:
 - path: /etc/modprobe.d/nouveau.conf
   content: |
     blacklist nouveau
+- path: /home/${USERNAME}/.config/sunshine/sunshine.conf
+  content: |
+    origin_web_ui_allowed = wan
 - path: /var/lib/cloud/scripts/per-boot/nvidia-installer.sh
   permissions: "0755"
   content: |
